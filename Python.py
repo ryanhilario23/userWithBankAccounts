@@ -1,52 +1,50 @@
 class BankAccount:
-    def __init__(self,int_rate, checkings,savings):
-        self.int_rate = int_rate
+    def __init__(self, checkings,savings,checkingID, savingID):
         self.checkings = checkings
         self.savings = savings
-
-class User:
-    def __init__(self, name, email,checking, savings):
-        self.name = name
-        self.email = email
-        self.checking = checking
-        self.savings = savings
-        self.account = BankAccount(int_rate=0.02, checkings=100, savings=0 )
-#Display account 
-    def display_account_info(self):
-        print(f"Current Balance: ${self.account.checkings}\nCurrent Savings:${self.account.savings}")
-        return self
-
+        self.checkingID = checkingID
+        self.savingID = savingID
+    #Display account 
+    def display_account_info(cls):
+        print(f"Current Balance: ${cls.checkings}\nCurrent Savings: ${cls.savings}")
+        return cls
 #Make a deposit
-    def make_deposit(self,account_num, amount):
+    def make_deposit(cls, key, amount):
     #checking if the selected account is Checking or Savings
-        if account_num == self.checking:
-            self.account.checkings += amount
-            print(f'Deposit Sucessful: ${amount}\nNew Balance: ${self.account.checkings}')
-        elif account_num == self.savings:
-            self.account.savings += amount
-            print(f'Deposit Sucessful: ${amount}\nNew Balance: ${self.account.checkings}')
+        if key == cls.checkingID:
+            cls.checkings += amount
+            print(f'Deposit Sucessful: ${amount}\nNew Balance: ${cls.checkings}')
+        elif key == cls.savingID:
+            cls.savings += amount
+            print(f'Deposit Sucessful: ${amount}\nNew Balance: ${cls.savings}')
     #THe account does not match to the user's accounts
         else:
             print("error: Account not owned")
-        return self
-
-#Make a make_withdrawal
-    def make_withdrawal(self,account_num,amount):
-        if account_num == self.checking:
-            self.account.checkings -= amount
-            print(f'Withdrawl Sucessful: ${amount}\nNew Balance: ${self.account.checkings}')
-        elif account_num == self.savings:
-            self.account.savings -= amount
-            print(f'Withdrawl Sucessful: ${amount}\nNew Balance: ${self.account.checkings}')
+        return cls
+#Make a withdraw
+    def make_withdraw(cls, key, amount):
+        if key == cls.checkingID:
+            cls.checkings -= amount
+            print(f'Withdraw Sucessful: ${amount}\nNew Balance: ${cls.checkings}')
+        elif key == cls.savingID:
+            cls.savings -= amount
+            print(f'Withdraw Sucessful: ${amount}\nNew Balance: ${cls.savings}')
         else:
             print("error: Account not owned")
-        return self
+        return cls
 
-GoGo = User("Gogo", 'Gogo@BH6.org',4012, 1009)
-Fred = User("Fred", 'Fredmister@BH6.org', 1037, 14123)
+class User:
+    def __init__(self, name, email,checkingID, savingID,checkings, savings,):
+        self.name = name
+        self.email = email
+        self.account = BankAccount(checkings, savings,checkingID, savingID )
 
-print("Gogo's Account")
-GoGo.display_account_info().make_deposit(4012,100).make_deposit(1009,50).display_account_info()
+
+GoGo = User("Gogo", 'Gogo@BH6.org',4012, 1009, 20, 100)
+Fred = User("Fred", 'Fredmister@BH6.org', 1037, 14123, 1000, 200000)
+
+# GoGo.manaic()
 print("----------")
-print("Fred's Account")
-Fred.display_account_info().make_deposit(1037,2000).make_deposit(14123,5000).display_account_info()
+GoGo.account.make_deposit(1009,100).make_deposit(1009,100)
+print("----------")
+Fred.account.display_account_info().make_deposit(14123,10000) 
